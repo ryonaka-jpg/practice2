@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3日間修学旅行シミュレーション</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #4a69bd;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        .total-budget {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+        .day-section {
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #fafafc;
+        }
+        .day-section h2 {
+            font-size: 20px;
+            color: #6a89cc;
+            margin-top: 0;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .item {
+            background-color: #f9f9fb;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e6f7ff;
+            border-radius: 8px;
+            border: 1px solid #b3e0ff;
+        }
+        .result h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .result p {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .result input[type="number"] {
+            width: 150px;
+            text-align: right;
+            border: 1px solid #ccc;
+        }
+        .info {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4a69bd;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3b5093;
+        }
+        .feedback {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .correct {
+            color: #27ae60;
+        }
+        .incorrect {
+            color: #e74c3c;
+        }
+        #budgetStatus {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        #budgetStatus.over {
+            color: #e74c3c;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>修学旅行シミュレーション</h1>
+    <p class="total-budget">3日間の合計予算：**7000円**</p>
+
+    <div id="day1" class="day-section">
+        <h2>1日目</h2>
+        <div class="item">
+            <label for="lunch1">昼食：</label>
+            <select id="lunch1" class="lunch-select">
+                <option value="800">そば（800円）</option>
+                <option value="1000">カレーライス（1000円）</option>
+                <option value="1200">焼肉定食（1200円）</option>
+                <option value="500">かけうどん（500円）</option>
+                <option value="160">メロンパン（160円）</option>
+            </select>
+        </div>
+        <div class="item-list">
+            <div class="item">
+                <label for="choco1">チョコ（1箱 360円）：</label>
+                <input type="number" id="choco1" class="souvenir-input" value="0" min="0" max="10">
+            </div>
+            <div class="item">
+                <label for="candy1">あめ（1箱 230円）：</label>
+                <input type="number" id="candy1" class="souvenir-input" value="0" min="0" max="10">
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div id="day2" class="day-section">
+        <h2>2日目</h2>
+        <div class="item">
+            <label for="lunch2">昼食：</label>
+            <select id="lunch2" class="lunch-select">
+                <option value="800">そば（800円）</option>
+                <option value="1000">カレーライス（1000円）</option>
+                <option value="1200">焼肉定食（1200円）</option>
+                <option value="500">かけうどん（500円）</option>
+                <option value="160">メロンパン（160円）</option>
+            </select>
+        </div>
+        <div class="item-list">
+            <div class="item">
+                <label for="choco2">チョコ（1箱 360円）：</label>
+                <input type="number" id="choco2" class="souvenir-input" value="0" min="0" max="10">
+            </div>
+            <div class="item">
+                <label for="candy2">あめ（1箱 230円）：</label>
+                <input type="number" id="candy2" class="souvenir-input" value="0" min="0" max="10">
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div id="day3" class="day-section">
+        <h2>3日目</h2>
+        <div class="item">
+            <label for="lunch3">昼食：</label>
+            <select id="lunch3" class="lunch-select">
+                <option value="800">そば（800円）</option>
+                <option value="1000">カレーライス（1000円）</option>
+                <option value="1200">焼肉定食（1200円）</option>
+                <option value="500">かけうどん（500円）</option>
+                <option value="160">メロンパン（160円）</option>
+            </select>
+        </div>
+        <div class="item-list">
+            <div class="item">
+                <label for="choco3">チョコ（1箱 360円）：</label>
+                <input type="number" id="choco3" class="souvenir-input" value="0" min="0" max="10">
+            </div>
+            <div class="item">
+                <label for="candy3">あめ（1箱 230円）：</label>
+                <input type="number" id="candy3" class="souvenir-input" value="0" min="0" max="10">
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="result">
+        <h3 id="budgetStatus">現在の合計金額：★★★円</h3>
+        <p>合計金額：<input type="number" id="userTotalCost">円</p>
+        <p>残り予算：<input type="number" id="userRemainingBudget">円</p>
+        <div class="button-group">
+            <button id="checkAnswer">答え合わせ</button>
+        </div>
+        <p class="feedback" id="feedbackMessage"></p>
+    </div>
+
+</div>
+
+<script>
+    const budget = 7000;
+    const userTotalCostInput = document.getElementById('userTotalCost');
+    const userRemainingBudgetInput = document.getElementById('userRemainingBudget');
+    const checkButton = document.getElementById('checkAnswer');
+    const feedbackMessage = document.getElementById('feedbackMessage');
+    const budgetStatusElement = document.getElementById('budgetStatus');
+
+    function calculateCorrectAnswer() {
+        let totalCost = 0;
+
+        for (let i = 1; i <= 3; i++) {
+            const lunchSelect = document.getElementById('lunch' + i);
+            const chocoInput = document.getElementById('choco' + i);
+            const candyInput = document.getElementById('candy' + i);
+
+            const lunchCost = parseInt(lunchSelect.value, 10) || 0;
+            const chocoCount = parseInt(chocoInput.value, 10) || 0;
+            const candyCount = parseInt(candyInput.value, 10) || 0;
+
+            let souvenirCost = (chocoCount * 360) + (candyCount * 230);
+            
+            // チョコ2個で300円値引きのルールを削除
+            // if (chocoCount === 2) {
+            //     souvenirCost -= 300;
+            // }
+
+            totalCost += lunchCost + souvenirCost;
+        }
+        
+        return {
+            totalCost: totalCost,
+            remainingBudget: budget - totalCost
+        };
+    }
+    
+    function updateBudgetStatus() {
+        const correctAnswers = calculateCorrectAnswer();
+        const totalCost = correctAnswers.totalCost;
+
+        if (totalCost > budget) {
+            budgetStatusElement.classList.add('over');
+            budgetStatusElement.textContent = `🚨 予算オーバーです！(${totalCost}円)`;
+        } else {
+            budgetStatusElement.classList.remove('over');
+            budgetStatusElement.textContent = `現在の合計金額：★★★円`;
+        }
+    }
+
+    function checkAnswer() {
+        const userTotalCost = parseInt(userTotalCostInput.value, 10);
+        const userRemainingBudget = parseInt(userRemainingBudgetInput.value, 10);
+        
+        const correctAnswers = calculateCorrectAnswer();
+        
+        if (userTotalCost === correctAnswers.totalCost && userRemainingBudget === correctAnswers.remainingBudget) {
+            feedbackMessage.textContent = '🎉 正解です！素晴らしい計算力！';
+            feedbackMessage.className = 'feedback correct';
+        } else {
+            feedbackMessage.textContent = '🤔 計算を確認してみよう。もう一度がんばって！';
+            feedbackMessage.className = 'feedback incorrect';
+        }
+    }
+
+    document.querySelectorAll('.lunch-select').forEach(select => {
+        select.addEventListener('change', updateBudgetStatus);
+    });
+    document.querySelectorAll('.souvenir-input').forEach(input => {
+        input.addEventListener('input', updateBudgetStatus);
+    });
+    checkButton.addEventListener('click', checkAnswer);
+
+    updateBudgetStatus();
+</script>
+
+</body>
+</html>
